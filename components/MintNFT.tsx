@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { FREE_NFT_ABI } from '@/lib/contract-abi';
 import { 
@@ -79,25 +80,30 @@ export function MintNFT() {
 
   if (!isConnected) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 to-blue-600 p-4">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-orange-500 to-pink-600 p-4">
         <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
           <h1 className="text-3xl font-bold text-gray-800 mb-2 text-center">
             Be part of the cult.
           </h1>
-
-        <div className="flex justify-center my-4 rounded-sm">
-          <img 
-          src="/cult.png" 
-          alt="Logo NFT" 
-          className="w-32 h-32 object-contain rounded-md"
-          />
-  </div>
-
+          
+          {/* Logo/Imagen usando next/image */}
+          <div className="flex justify-center my-6 rounded-sm">
+            <div className="relative w-40 h-40">
+              <Image 
+                src="/cult.png" 
+                alt="NFT Collection" 
+                fill
+                className="object-contain rounded-lg"
+                priority
+              />
+            </div>
+          </div>
+          
           <p className="text-gray-600 mb-6 text-center">
             connect for mint.
           </p>
+          
           <div className="flex justify-center">
-            <div className="wallet-button-wrapper">
             <Wallet>
               <ConnectWallet>
                 <Avatar className="h-6 w-6" />
@@ -107,7 +113,6 @@ export function MintNFT() {
                 <WalletDropdownDisconnect />
               </WalletDropdown>
             </Wallet>
-            </div>
           </div>
         </div>
       </div>
@@ -119,7 +124,7 @@ export function MintNFT() {
   const userHasMinted = Boolean(hasMinted);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-orange-500 to-pink-600 p-4">
       <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
         {/* Header con info del usuario */}
         <div className="flex items-center justify-between mb-6 pb-4 border-b">
@@ -142,13 +147,13 @@ export function MintNFT() {
         </div>
 
         <h1 className="text-3xl font-bold text-gray-800 mb-2 text-center">
-          Be part of the cult. 
+          Be part of the cult.
         </h1>
 
         {/* Supply Counter */}
         <div className="bg-blue-50 rounded-lg p-4 mb-6">
           <p className="text-center text-lg font-semibold text-blue-900">
-            {currentSupply} / {max} NFT Count
+            {currentSupply} / {max} NFTs Minteados
           </p>
           <div className="w-full bg-blue-200 rounded-full h-2 mt-2">
             <div
@@ -194,7 +199,7 @@ export function MintNFT() {
             {mintSuccess && (
               <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                 <p className="text-green-800 text-center font-semibold">
-                  🎉 NFT minted!
+                  🎉 NFT minteado exitosamente!
                 </p>
                 {hash && (
                   <a
@@ -203,7 +208,7 @@ export function MintNFT() {
                     rel="noopener noreferrer"
                     className="text-blue-600 text-sm text-center block mt-2 hover:underline"
                   >
-                    see transaction →
+                    See transaction →
                   </a>
                 )}
               </div>
