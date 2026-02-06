@@ -1,36 +1,20 @@
-const ROOT_URL =
-  process.env.NEXT_PUBLIC_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'http://localhost:3000');
+export const ROOT_URL = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 
-/**
- * MiniApp configuration object. Must follow the Farcaster MiniApp specification.
- *
- * @see {@link https://miniapps.farcaster.xyz/docs/guides/publishing}
- */
 export const farcasterConfig = {
   accountAssociation: {
-    header: "",
-    payload: "",
-    signature: ""
+    // Este objeto se completará después de firmar el manifest en:
+    // https://farcaster.xyz/~/developers/mini-apps/manifest
+    "header": "eyJmaWQiOjU3NjA2MiwidHlwZSI6ImF1dGgiLCJrZXkiOiIweDRiZEUyNjkxYTRhOTg3OWQ3NjUxMjQwN0FjNmFlOThFZDU5ZTdkQzMifQ",
+    "payload": "eyJkb21haW4iOiJiYXNlY3VsdG1pbnQudmVyY2VsLmFwcCJ9",
+    "signature": "bG3ObjCp76fcDk3Y9xd1G4AIViPyRycAWQU8kV0BxClX56RHgVjO9GnQNJ0M4eWyjNRM/0u2x9rxiQvQANoeCxw="
   },
-  miniapp: {
+  frame: {
     version: "1",
-    name: "Cubey", 
-    subtitle: "Your AI Ad Companion", 
-    description: "Ads",
-    screenshotUrls: [`${ROOT_URL}/screenshot-portrait.png`],
-    iconUrl: `${ROOT_URL}/blue-icon.png`,
-    splashImageUrl: `${ROOT_URL}/blue-hero.png`,
-    splashBackgroundColor: "#000000",
+    name: "basecult",
+    iconUrl: `${ROOT_URL}/cult.png`,
+    splashImageUrl: `${ROOT_URL}/cult.png`,
+    splashBackgroundColor: "#0052FF",
     homeUrl: ROOT_URL,
     webhookUrl: `${ROOT_URL}/api/webhook`,
-    primaryCategory: "social",
-    tags: ["marketing", "ads", "quickstart", "waitlist"],
-    heroImageUrl: `${ROOT_URL}/blue-hero.png`, 
-    tagline: "",
-    ogTitle: "",
-    ogDescription: "",
-    ogImageUrl: `${ROOT_URL}/blue-hero.png`,
   },
 } as const;
-

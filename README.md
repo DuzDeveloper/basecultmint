@@ -1,159 +1,316 @@
-# Waitlist Mini App Quickstart
+# 🎨 NFT Mint Mini App - Base
 
-This is a demo Mini App application built using OnchainKit and the Farcaster SDK. Build a waitlist sign-up mini app for your company that can be published to the Base app and Farcaster. 
+Una mini app para mintear NFTs gratuitos en Base, construida con Next.js, OnchainKit y el SDK de Farcaster.
 
-> [!IMPORTANT]  
-> Before interacting with this demo, please review our [disclaimer](#disclaimer) — there are **no official tokens or apps** associated with Cubey, Base, or Coinbase.
+## 📋 Tabla de Contenidos
 
-## Prerequisites
+- [Características](#características)
+- [Requisitos Previos](#requisitos-previos)
+- [Instalación](#instalación)
+- [Configuración del Contrato](#configuración-del-contrato)
+- [Configuración del Proyecto](#configuración-del-proyecto)
+- [Desarrollo Local](#desarrollo-local)
+- [Deployment](#deployment)
+- [Publicación en Base App](#publicación-en-base-app)
 
-Before getting started, make sure you have:
+## ✨ Características
 
-* Base app account
-* A [Farcaster](https://farcaster.xyz/) account
-* [Vercel](https://vercel.com/) account for hosting the application
-* [Coinbase Developer Platform](https://portal.cdp.coinbase.com/) Client API Key
+- ✅ Mint de NFTs completamente gratuito (solo gas fees)
+- ✅ Un NFT por wallet
+- ✅ Integración con Coinbase Wallet
+- ✅ Funciona en Base App y Farcaster
+- ✅ Diseño responsive y moderno
+- ✅ Contador de supply en tiempo real
+- ✅ Feedback visual del estado del mint
 
-## Getting Started
+## 🔧 Requisitos Previos
 
-### 1. Clone this repository 
+Antes de comenzar, asegúrate de tener:
 
-```bash
-git clone https://github.com/base/demos.git
-```
+1. **Node.js** (v18 o superior)
+2. **npm** o **yarn**
+3. **Cuenta de Farcaster** (puedes crear una en [Warpcast](https://warpcast.com))
+4. **Cuenta de Vercel** para deployment
+5. **Wallet de Ethereum** (MetaMask o Coinbase Wallet)
+6. **ETH en Base Sepolia** para deployar el contrato (obtenlo en el [faucet](https://www.coinbase.com/faucets/base-ethereum-sepolia-faucet))
 
-### 2. Install dependencies:
+## 📦 Instalación
 
-```bash
-cd demos/minikit/waitlist-mini-app-qs
+### 1. Clonar el repositorio
+
+\`\`\`bash
+git clone <tu-repositorio>
+cd nft-mint-miniapp
+\`\`\`
+
+### 2. Instalar dependencias
+
+\`\`\`bash
 npm install
-```
+\`\`\`
 
-### 3. Configure environment variables
+## 🔐 Configuración del Contrato
 
-Create a `.env.local` file and add your environment variables:
+### Paso 1: Desplegar el Contrato NFT
 
-```bash
-NEXT_PUBLIC_PROJECT_NAME="Your App Name"
-NEXT_PUBLIC_ONCHAINKIT_API_KEY=<Replace-WITH-YOUR-CDP-API-KEY>
-NEXT_PUBLIC_URL=
-```
+1. **Abrir Remix IDE**
+   - Ve a [remix.ethereum.org](https://remix.ethereum.org)
 
-### 4. Run locally:
+2. **Crear el archivo del contrato**
+   - Crea un nuevo archivo llamado \`FreeNFT.sol\`
+   - Copia el contenido de \`contracts/FreeNFT.sol\`
 
-```bash
+3. **Compilar el contrato**
+   - Ve a la pestaña "Solidity Compiler"
+   - Selecciona versión 0.8.20 o superior
+   - Haz click en "Compile FreeNFT.sol"
+
+4. **Conectar tu wallet**
+   - Ve a la pestaña "Deploy & Run Transactions"
+   - En "Environment", selecciona "Injected Provider - MetaMask"
+   - Asegúrate de estar conectado a **Base Sepolia** (Chain ID: 84532)
+
+5. **Desplegar el contrato**
+   - Ingresa los parámetros del constructor:
+     - \`name\`: "My Free NFT" (o el nombre que quieras)
+     - \`symbol\`: "FNFT" (o el símbolo que quieras)
+     - \`baseTokenURI\`: "https://tu-dominio.com/metadata/" (URL donde estarán los metadatos)
+     - \`_maxSupply\`: 1000 (cantidad máxima de NFTs)
+   - Haz click en "Deploy"
+   - Confirma la transacción en tu wallet
+
+6. **Copiar la dirección del contrato**
+   - Una vez desplegado, copia la dirección del contrato
+   - La necesitarás para la configuración
+
+### Paso 2: Preparar Metadatos (Opcional)
+
+Si quieres que tus NFTs tengan imágenes y descripciones:
+
+1. **Estructura de archivos**
+   \`\`\`
+   metadata/
+   ├── 0.json
+   ├── 1.json
+   ├── 2.json
+   └── ...
+   \`\`\`
+
+2. **Ejemplo de metadata (0.json)**
+   \`\`\`json
+   {
+     "name": "My Free NFT #0",
+     "description": "Un NFT gratuito de la colección",
+     "image": "https://tu-dominio.com/images/0.png",
+     "attributes": [
+       {
+         "trait_type": "Rarity",
+         "value": "Common"
+       }
+     ]
+   }
+   \`\`\`
+
+3. **Subir a IPFS o hosting**
+   - Sube tus metadatos a IPFS (usando Pinata, NFT.Storage, etc.)
+   - O súbelos a tu propio servidor
+   - Actualiza la \`baseTokenURI\` del contrato si es necesario
+
+## ⚙️ Configuración del Proyecto
+
+### 1. Obtener API Key de Coinbase Developer Platform
+
+1. Ve a [portal.cdp.coinbase.com](https://portal.cdp.coinbase.com/)
+2. Crea una cuenta o inicia sesión
+3. Crea un nuevo proyecto
+4. Copia tu API Key
+
+### 2. Configurar variables de entorno
+
+Crea un archivo \`.env.local\` en la raíz del proyecto:
+
+\`\`\`env
+NEXT_PUBLIC_PROJECT_NAME="NFT Mint Mini App"
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=tu_api_key_aqui
+NEXT_PUBLIC_URL=http://localhost:3000
+NEXT_PUBLIC_NFT_CONTRACT_ADDRESS=0x_tu_contrato_aqui
+NEXT_PUBLIC_CHAIN_ID=84532
+\`\`\`
+
+**Importante:**
+- \`NEXT_PUBLIC_NFT_CONTRACT_ADDRESS\`: La dirección del contrato que desplegaste
+- \`NEXT_PUBLIC_CHAIN_ID\`: 84532 para Base Sepolia, 8453 para Base Mainnet
+
+## 🚀 Desarrollo Local
+
+### Ejecutar el servidor de desarrollo
+
+\`\`\`bash
 npm run dev
-```
+\`\`\`
 
-## Customization
+La aplicación estará disponible en [http://localhost:3000](http://localhost:3000)
 
-### Update Manifest Configuration
+### Probar la aplicación
 
-The `minikit.config.ts` file configures your manifest located at `app/.well-known/farcaster.json`.
+1. Abre http://localhost:3000
+2. Conecta tu wallet
+3. Asegúrate de estar en Base Sepolia
+4. Haz click en "Mintear NFT Gratis"
+5. Confirma la transacción
 
-**Skip the `accountAssociation` object for now.**
+## 📤 Deployment
 
-To personalize your app, change the `name`, `subtitle`, and `description` fields and add images to your `/public` folder. Then update their URLs in the file.
+### 1. Desplegar a Vercel
 
-## Deployment
+#### Opción A: Desde la terminal
 
-### 1. Deploy to Vercel
+\`\`\`bash
+# Instalar Vercel CLI si no lo tienes
+npm install -g vercel
 
-```bash
+# Desplegar
 vercel --prod
-```
+\`\`\`
 
-You should have a URL deployed to a domain similar to: `https://your-vercel-project-name.vercel.app/`
+#### Opción B: Desde GitHub
 
-### 2. Update environment variables
+1. Sube tu código a GitHub
+2. Ve a [vercel.com](https://vercel.com)
+3. Importa tu repositorio
+4. Configura las variables de entorno
+5. Despliega
 
-Add your production URL to your local `.env` file:
+### 2. Configurar variables de entorno en Vercel
 
-```bash
-NEXT_PUBLIC_PROJECT_NAME="Your App Name"
-NEXT_PUBLIC_ONCHAINKIT_API_KEY=<Replace-WITH-YOUR-CDP-API-KEY>
-NEXT_PUBLIC_URL=https://your-vercel-project-name.vercel.app/
-```
+1. Ve a tu proyecto en Vercel
+2. Settings → Environment Variables
+3. Agrega las siguientes variables:
 
-### 3. Upload environment variables to Vercel
+\`\`\`
+NEXT_PUBLIC_PROJECT_NAME=NFT Mint Mini App
+NEXT_PUBLIC_ONCHAINKIT_API_KEY=tu_api_key
+NEXT_PUBLIC_URL=https://tu-proyecto.vercel.app
+NEXT_PUBLIC_NFT_CONTRACT_ADDRESS=0x_tu_contrato
+NEXT_PUBLIC_CHAIN_ID=84532
+\`\`\`
 
-Add environment variables to your production environment:
+### 3. Actualizar configuración local
 
-```bash
-vercel env add NEXT_PUBLIC_PROJECT_NAME production
-vercel env add NEXT_PUBLIC_ONCHAINKIT_API_KEY production
-vercel env add NEXT_PUBLIC_URL production
-```
+Actualiza tu \`.env.local\` con la URL de producción:
 
-## Account Association
+\`\`\`env
+NEXT_PUBLIC_URL=https://tu-proyecto.vercel.app
+\`\`\`
 
-### 1. Sign Your Manifest
+### 4. Re-desplegar
 
-1. Navigate to [Farcaster Manifest tool](https://farcaster.xyz/~/developers/mini-apps/manifest)
-2. Paste your domain in the form field (ex: your-vercel-project-name.vercel.app)
-3. Click the `Generate account association` button and follow the on-screen instructions for signing with your Farcaster wallet
-4. Copy the `accountAssociation` object
+\`\`\`bash
+vercel --prod
+\`\`\`
 
-### 2. Update Configuration
+## 🔑 Account Association (Firma del Manifest)
 
-Update your `minikit.config.ts` file to include the `accountAssociation` object:
+### 1. Firmar el manifest
 
-```ts
-export const minikitConfig = {
-    accountAssociation: {
-        "header": "your-header-here",
-        "payload": "your-payload-here",
-        "signature": "your-signature-here"
-    },
-    frame: {
-        // ... rest of your frame configuration
-    },
+1. Ve a [farcaster.xyz/~/developers/mini-apps/manifest](https://farcaster.xyz/~/developers/mini-apps/manifest)
+2. Pega tu dominio (ej: tu-proyecto.vercel.app)
+3. Click en "Generate account association"
+4. Firma con tu wallet de Farcaster
+5. Copia el objeto \`accountAssociation\` generado
+
+### 2. Actualizar la configuración
+
+Edita \`farcaster.config.ts\` y pega los valores:
+
+\`\`\`typescript
+accountAssociation: {
+  "header": "tu-header-aqui",
+  "payload": "tu-payload-aqui",
+  "signature": "tu-signature-aqui"
 }
-```
+\`\`\`
 
-### 3. Deploy Updates
+### 3. Re-desplegar
 
-```bash
+\`\`\`bash
 vercel --prod
-```
+\`\`\`
 
-## Testing and Publishing
+## 📱 Publicación en Base App
 
-### 1. Preview Your App
+### 1. Verificar tu app
 
-Go to [base.dev/preview](https://base.dev/preview) to validate your app:
+Ve a [base.dev/preview](https://base.dev/preview) y verifica:
 
-1. Add your app URL to view the embeds and click the launch button to verify the app launches as expected
-2. Use the "Account association" tab to verify the association credentials were created correctly
-3. Use the "Metadata" tab to see the metadata added from the manifest and identify any missing fields
+1. **Embeds**: Verifica que se vean correctamente
+2. **Account Association**: Verifica las credenciales
+3. **Metadata**: Revisa que no falten campos
 
-### 2. Publish to Base App
+### 2. Publicar
 
-To publish your app, create a post in the Base app with your app's URL.
+Para publicar tu app en Base App:
 
-## Learn More
+1. Abre Base App
+2. Crea un nuevo post
+3. Incluye la URL de tu app
+4. Publica el post
 
-For detailed step-by-step instructions, see the [Create a Mini App tutorial](https://docs.base.org/docs/mini-apps/quickstart/create-new-miniapp/) in the Base documentation.
+¡Tu mini app ahora estará disponible en Base App!
 
+## 🎨 Personalización
+
+### Cambiar colores
+
+Edita \`components/MintNFT.tsx\` y ajusta las clases de Tailwind:
+
+\`\`\`tsx
+className="bg-gradient-to-br from-blue-500 to-purple-600"
+\`\`\`
+
+### Cambiar textos
+
+Edita los textos directamente en \`components/MintNFT.tsx\`
+
+### Agregar imágenes
+
+1. Agrega tus imágenes a la carpeta \`public/\`
+2. Actualiza las referencias en \`farcaster.config.ts\`
+
+## 🐛 Solución de Problemas
+
+### Error: "Network mismatch"
+- Asegúrate de estar conectado a Base Sepolia en tu wallet
+
+### Error: "Contract not found"
+- Verifica que la dirección del contrato sea correcta
+- Asegúrate de que el contrato esté desplegado en la red correcta
+
+### Error: "Already minted"
+- Solo puedes mintear un NFT por wallet
+- Intenta con otra wallet si quieres probar de nuevo
+
+### La app no se carga en Base App
+- Verifica que el manifest esté firmado correctamente
+- Revisa que todas las URLs sean HTTPS (no HTTP)
+- Verifica en base.dev/preview que todo esté correcto
+
+## 📚 Recursos Adicionales
+
+- [Documentación de Base](https://docs.base.org)
+- [OnchainKit Docs](https://onchainkit.xyz)
+- [Farcaster Mini Apps](https://docs.farcaster.xyz/developers/frames/spec)
+- [Wagmi Documentation](https://wagmi.sh)
+
+## 📄 Licencia
+
+MIT
+
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas! Por favor abre un issue o PR.
 
 ---
 
-## Disclaimer  
-
-This project is a **demo application** created by the **Base / Coinbase Developer Relations team** for **educational and demonstration purposes only**.  
-
-**There is no token, cryptocurrency, or investment product associated with Cubey, Base, or Coinbase.**  
-
-Any social media pages, tokens, or applications claiming to be affiliated with, endorsed by, or officially connected to Cubey, Base, or Coinbase are **unauthorized and fraudulent**.  
-
-We do **not** endorse or support any third-party tokens, apps, or projects using the Cubey name or branding.  
-
-> [!WARNING]
-> Do **not** purchase, trade, or interact with any tokens or applications claiming affiliation with Coinbase, Base, or Cubey.  
-> Coinbase and Base will never issue a token or ask you to connect your wallet for this demo.  
-
-For official Base developer resources, please visit:  
-- [https://base.org](https://base.org)  
-- [https://docs.base.org](https://docs.base.org)  
-
----
+Hecho con ❤️ para la comunidad de Base
+\`\`\`
