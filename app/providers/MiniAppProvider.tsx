@@ -22,22 +22,26 @@ export function MiniAppProvider({ children }: { children: ReactNode }) {
   const [context, setContext] = useState<Awaited<typeof sdk.context> | null>(null);
   const [isReady, setIsReady] = useState(false);
 
-  useEffect(() => {
-    const init = async () => {
-      const isInApp = await sdk.isInMiniApp();
-      if (isInApp) {
-        const ctx = await sdk.context;
+useEffect(() => {
+  const init = async () => {
+    try {
+      // Intentamos obtener el contexto
+      const ctx = await sdk.context;
+      if (ctx) {
         setContext(ctx);
-        await sdk.actions.ready();
-        setIsReady(true);
       }
-    };
-    init();
-  }, []);
-
-  return (
-    <MiniAppContext.Provider value={{ context, isReady }}>
-      {children}
-    </MiniAppContext.Provider>
-  );
+      
+      // ¡ESTA ES LA PARTE CLAVE!
+      // Llamamos a ready() siempre para notificar a Base que la app cargó.
+      // Esto ocultará el splash screen y cambiará el estado a "Ready".
+      await sdk.actions.ready();
+      setIsReady(true);
+    } catch (error) {
+      console.error("Error inicializando Mini App SDK:", error);
+      // Marcamos como listo incluso si hay error para no bloquear la app
+      setIsReady(true);
+    }
+  };
+  init();
+}, []);
 }
