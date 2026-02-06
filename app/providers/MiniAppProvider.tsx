@@ -24,25 +24,17 @@ export function MiniAppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const init = async () => {
-      try {
-        // Intentamos obtener el contexto e inicializar
+      const isInApp = await sdk.isInMiniApp();
+      if (isInApp) {
         const ctx = await sdk.context;
-        if (ctx) {
-          setContext(ctx);
-        }
-        
-        // Es vital llamar a ready() para que Base sepa que la app cargó
+        setContext(ctx);
         await sdk.actions.ready();
-        setIsReady(true);
-      } catch (error) {
-        console.error("Error inicializando Mini App SDK:", error);
         setIsReady(true);
       }
     };
     init();
   }, []);
 
-  // Aquí pasamos los valores al Provider para que se consideren "usados"
   return (
     <MiniAppContext.Provider value={{ context, isReady }}>
       {children}
