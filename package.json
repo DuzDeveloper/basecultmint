@@ -17,7 +17,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "viem": "^2.21.54",
-    "wagmi": "^2.14.6"
+    "wagmi": "^2.14.6",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
