@@ -19,6 +19,7 @@ export const farcasterConfig = {
   },
   // Agregar alias para compatibilidad
   miniapp: {
+    version: "1",
     subtitle: "Be part of Cult",
     description: "The best Cult of Base",
     screenshotUrls: [],
@@ -28,7 +29,7 @@ export const farcasterConfig = {
     splashBackgroundColor: "#000000",
     homeUrl: "https://basecultmint.vercel.app",
     webhookUrl: "https://basecultmint.vercel.app/api/webhook",
-    primaryCategory: "Art",
+    primaryCategory: "art-creativity",
     tags: ["Art"],
     heroImageUrl: "https://basecultmint.vercel.app/cult.png",
     tagline: "",
