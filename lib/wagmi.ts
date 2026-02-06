@@ -1,12 +1,16 @@
+
 import { http, createConfig } from 'wagmi';
 import { baseSepolia, base } from 'wagmi/chains';
 import { coinbaseWallet } from 'wagmi/connectors';
 
 const chainId = parseInt(process.env.NEXT_PUBLIC_CHAIN_ID || '84532');
-const chain = chainId === 8453 ? base : baseSepolia;
 
+// Determinar qué chain usar basado en CHAIN_ID
+export const chain = chainId === 8453 ? base : baseSepolia;
+
+// Configurar wagmi con soporte para ambas chains
 export const config = createConfig({
-  chains: [chain],
+  chains: [baseSepolia, base],
   connectors: [
     coinbaseWallet({
       appName: process.env.NEXT_PUBLIC_PROJECT_NAME || 'NFT Mint Mini App',
@@ -14,8 +18,7 @@ export const config = createConfig({
   ],
   ssr: true,
   transports: {
-    [chain.id]: http(),
+    [baseSepolia.id]: http(),
+    [base.id]: http(),
   },
 });
-
-export { chain };
