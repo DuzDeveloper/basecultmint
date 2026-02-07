@@ -8,7 +8,7 @@ export default function Success() {
 
   const handleShare = async () => {
     try {
-      const text = `Yay! I just joined the waitlist for ${farcasterConfig.miniapp.name.toUpperCase()}! `;
+      const text = `Yay! I just joined the waitlist for ${farcasterConfig.frame.name.toUpperCase()}! `;
 
       const result = await sdk.actions.composeCast({
         text: text,
@@ -41,7 +41,7 @@ export default function Success() {
             </div>
           </div>
           
-          <h1 className={styles.title}>Welcome to the {farcasterConfig.miniapp.name.toUpperCase()}!</h1>
+          <h1 className={styles.title}>Welcome to the {farcasterConfig.frame.name.toUpperCase()}!</h1>
           
           <p className={styles.subtitle}>
             You&apos;re in! We&apos;ll notify you as soon as we launch.<br />
