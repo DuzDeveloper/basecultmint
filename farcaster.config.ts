@@ -8,18 +8,6 @@ export const farcasterConfig = {
 },
   frame: {
     version: "1",
-    name: "Base Cult Mint",
-    iconUrl: "https://basecultmint.vercel.app/cult.png",
-    splashImageUrl: "https://basecultmint.vercel.app/cult.png",
-    homeUrl: "https://basecultmint.vercel.app",
-    webhookUrl: "https://basecultmint.vercel.app/api/webhook",
-    heroImageUrl: "https://basecultmint.vercel.app/cult.png",
-    ogImageUrl: "https://basecultmint.vercel.app/cult.png",
-
-  },
-  // Agregar alias para compatibilidad
-  miniapp: {
-    version: "1",
     subtitle: "Be part of Cult",
     description: "The best Cult of Base",
     screenshotUrls: [],
