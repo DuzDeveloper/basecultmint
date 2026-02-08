@@ -80,7 +80,7 @@ export function MintNFT() {
 
   if (!isConnected) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-orange-500 to-pink-600 p-4">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 to-blue-600 p-4">
         <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
           <h1 className="text-3xl font-bold text-gray-800 mb-2 text-center">
             Be part of the cult.
@@ -153,7 +153,7 @@ export function MintNFT() {
         {/* Supply Counter */}
         <div className="bg-blue-50 rounded-lg p-4 mb-6">
           <p className="text-center text-lg font-semibold text-blue-900">
-            {currentSupply} / {max} NFTs Minteados
+            {currentSupply} / {max} NFTs 
           </p>
           <div className="w-full bg-blue-200 rounded-full h-2 mt-2">
             <div
