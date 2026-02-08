@@ -22,7 +22,7 @@ export const minikitConfig = {
     version: "1",
     subtitle: "Be part of Cult",
     description: "The best Cult of Base",
-    screenshotUrls: "[https://basecultmint.vercel.app/images/scr1.png]",
+    screenshotUrls: ["https://basecultmint.vercel.app/images/scr1.png"],
     name: "Base Cult Mint",
     iconUrl: `https://basecultmint.vercel.app/images/icon.png`,
     splashImageUrl: `https://basecultmint.vercel.app/images/splash.png`,
